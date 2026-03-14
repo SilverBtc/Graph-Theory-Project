@@ -1,5 +1,6 @@
 import os
 import math
+from time import time
 from pyvis.network import Network
 import networkx as nx
 
@@ -89,9 +90,44 @@ def has_absorbing_circuit(L, n):
             return True
     return False
 
+def reconstruct_path(P, L, start, end, n):
+    if L[start][end] == INF:
+        return None, INF
+
+    path = [end]
+    current = end
+    visited = set()
+
+    while current != start:
+        pred = P[start][current]
+        if pred is None:
+            return None, INF  # No path
+        if pred in visited:
+            return None, INF  # Cycle
+        visited.add(current)
+        path.append(pred)
+        current = pred
+        if len(path) > n + 1:
+            return None, INF
+
+    path.reverse()
+    return path, L[start][end]
+
 
 def display_path(P, L, start, end, n):
-    pass
+    start_time = time()
+
+    path, cost = reconstruct_path(P, L, start, end, n)
+
+    if path is None:
+        print(f"No path from {start} to {end}.")
+    else:
+        print(f"The shortest path from {start} to {end} with cost {cost}")
+        print(" → ".join(map(str, path)))
+        
+    end_time = time()
+    print(f"Path reconstruction took {end_time - start_time:.6f} seconds.")
+
 
 
 def display_all_paths(P, L, n):
@@ -146,6 +182,7 @@ def process_graph(filepath):
         elif choice == "1":
             start = int(input(f"  Starting vertex (0 to {n-1}): ").strip())
             end = int(input(f"  Ending vertex   (0 to {n-1}): ").strip())
+            print()
             if 0 <= start < n and 0 <= end < n:
                 display_path(P, L, start, end, n)
             else:
