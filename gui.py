@@ -17,7 +17,7 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("Floyd-Warshall Shortest Path Solver")
+        self.title("Graph Theory - Shortest Path Solver")
         self.geometry("1200x800")
 
         self.graph_dir = "graphs"
@@ -318,107 +318,6 @@ class App(ctk.CTk):
     def change_appearance_mode_event(self, new_appearance_mode: str):
         ctk.set_appearance_mode(new_appearance_mode)
         self.draw_graph_in_canvas()
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
-
-    def run_floyd_warshall(self):
-        if self.current_graph_data:
-            n = self.current_graph_data["n"]
-            L0 = self.current_graph_data["L0"]
-            L, P = floyd_warshall(L0, n)
-            
-            absorbing = has_absorbing_circuit(L, n)
-            self.fw_results = {
-                "L": L,
-                "P": P,
-                "absorbing": absorbing
-            }
-
-            if absorbing:
-                self.status_label.configure(text="Absorbing circuit detected! Paths are not well-defined.", text_color="red")
-                self.query_button.configure(state="disabled")
-                self.all_paths_button.configure(state="disabled")
-            else:
-                self.status_label.configure(text="Floyd-Warshall completed successfully.", text_color="green")
-                self.query_button.configure(state="normal")
-                self.all_paths_button.configure(state="normal")
-
-            self.matrix_selector.set("Final Distance Matrix (L)")
-            self.update_matrix_display()
-            self.tabview.set("Matrices")
-
-    def update_matrix_display(self, choice=None):
-        if not self.current_graph_data:
-            self.matrix_text.delete("1.0", "end")
-            return
-
-        choice = choice or self.matrix_selector.get()
-        self.matrix_text.delete("1.0", "end")
-
-        matrix = None
-        if choice == "Initial Matrix (L0)":
-            matrix = self.current_graph_data["L0"]
-        elif self.fw_results:
-            if choice == "Final Distance Matrix (L)":
-                matrix = self.fw_results["L"]
-            elif choice == "Predecessor Matrix (P)":
-                matrix = self.fw_results["P"]
-        
-        if matrix:
-            text = ""
-            for row in matrix:
-                text += " ".join(f"{str(x) if x is not None and x != INF else 'INF':>5}" for x in row) + "\n"
-            self.matrix_text.insert("1.0", text)
-        else:
-            self.matrix_text.insert("1.0", "Run Floyd-Warshall to see final matrices.")
-
-    def query_path(self):
-        if not self.fw_results or self.fw_results["absorbing"]:
-            return
-
-        try:
-            start = int(self.start_entry.get())
-            end = int(self.end_entry.get())
-            n = self.current_graph_data["n"]
-
-            if 0 <= start < n and 0 <= end < n:
-                path, cost = reconstruct_path(self.fw_results["P"], self.fw_results["L"], start, end, n)
-                self.query_result_text.delete("1.0", "end")
-                if path:
-                    res = f"Shortest path from {start} to {end}:\n"
-                    res += " -> ".join(map(str, path)) + "\n"
-                    res += f"Total Cost: {cost}"
-                    self.query_result_text.insert("1.0", res)
-                else:
-                    self.query_result_text.insert("1.0", f"No path found from {start} to {end}.")
-            else:
-                self.query_result_text.delete("1.0", "end")
-                self.query_result_text.insert("1.0", f"Error: Vertices must be between 0 and {n-1}.")
-        except ValueError:
-            self.query_result_text.delete("1.0", "end")
-            self.query_result_text.insert("1.0", "Error: Please enter valid integer vertex indices.")
-
-    def show_all_paths(self):
-        if not self.fw_results or self.fw_results["absorbing"]:
-            return
-
-        n = self.current_graph_data["n"]
-        results = get_all_shortest_paths(self.fw_results["P"], self.fw_results["L"], n)
-        
-        self.query_result_text.delete("1.0", "end")
-        text = "All Shortest Paths:\n" + "-"*20 + "\n"
-        for start, end, path, cost in results:
-            if path:
-                text += f"{start} -> {end}: {' -> '.join(map(str, path))} (Cost: {cost})\n"
-            else:
-                text += f"{start} -> {end}: No path\n"
-        
-        self.query_result_text.insert("1.0", text)
-
-    def change_appearance_mode_event(self, new_appearance_mode: str):
-        ctk.set_appearance_mode(new_appearance_mode)
 
 if __name__ == "__main__":
     app = App()
