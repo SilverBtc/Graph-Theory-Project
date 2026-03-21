@@ -131,7 +131,27 @@ def display_path(P, L, start, end, n):
 
 
 def display_all_paths(P, L, n):
-    pass
+    results = get_all_shortest_paths(P, L, n)
+    if not results:
+        print("No paths found.")
+        return
+    
+    for start, end, path, cost in results:
+        if path:
+            print(f"Shortest path from {start} to {end} with cost {cost}: {' -> '.join(map(str, path))}")
+        else:
+            print(f"No path from {start} to {end}.")
+
+
+def get_all_shortest_paths(P, L, n):
+    results = []
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                continue
+            path, cost = reconstruct_path(P, L, i, j, n)
+            results.append((i, j, path, cost))
+    return results
 
 
 def process_graph(filepath):
@@ -141,7 +161,6 @@ def process_graph(filepath):
 
     print(f"  Number of vertices: {n}")
     print(f"  Number of arcs: {len(arcs)}")
-    print(f"  Arcs: {arcs}")
 
     L = build_value_matrix(n, arcs)
 
@@ -149,21 +168,20 @@ def process_graph(filepath):
     for row in L:
         print("  " + " ".join(f"{x if x != INF else 'INF':>5}" for x in row))
 
-
-    display_matrix(arcs, n)
-
-
-    L, P = floyd_warshall(L, n)
-
-    print(L)
-    print(P)
+    try:
+        display_matrix(arcs, n)
+    except Exception as e:
+        print(f"  [!] Could not display graph visually: {e}")
 
 
-    if has_absorbing_circuit(L, n):
+    L_final, P = floyd_warshall(L, n)
+
+
+    if has_absorbing_circuit(L_final, n):
         print("\n  Absorbing circuit detected! Shortest paths are not well-defined.")
-        absorbing_vertices = [i for i in range(n) if L[i][i] < 0]
+        absorbing_vertices = [i for i in range(n) if L_final[i][i] < 0]
         print(f"  Vertices on absorbing circuits: {absorbing_vertices}")
-        print(f"  Diagonal values: {[L[i][i] for i in absorbing_vertices]}")
+        print(f"  Diagonal values: {[L_final[i][i] for i in absorbing_vertices]}")
         return
     
 
@@ -171,7 +189,7 @@ def process_graph(filepath):
 
 
     while True:
-        print("Path query options:")
+        print("\nPath query options:")
         print("  1 — Display a specific path")
         print("  2 — Display all shortest paths")
         print("  0 — Return to main menu")
@@ -180,15 +198,18 @@ def process_graph(filepath):
         if choice == "0":
             break
         elif choice == "1":
-            start = int(input(f"  Starting vertex (0 to {n-1}): ").strip())
-            end = int(input(f"  Ending vertex   (0 to {n-1}): ").strip())
-            print()
-            if 0 <= start < n and 0 <= end < n:
-                display_path(P, L, start, end, n)
-            else:
-                print(f"  [!] Vertices must be between 0 and {n-1}.")
+            try:
+                start = int(input(f"  Starting vertex (0 to {n-1}): ").strip())
+                end = int(input(f"  Ending vertex   (0 to {n-1}): ").strip())
+                print()
+                if 0 <= start < n and 0 <= end < n:
+                    display_path(P, L_final, start, end, n)
+                else:
+                    print(f"  [!] Vertices must be between 0 and {n-1}.")
+            except ValueError:
+                print("  [!] Invalid input. Please enter a number.")
         elif choice == "2":
-            display_all_paths(P, L, n)
+            display_all_paths(P, L_final, n)
         else:
             print("  [!] Invalid choice. Please enter 0, 1, or 2.")
         print()
