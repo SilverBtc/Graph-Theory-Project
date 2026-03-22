@@ -69,10 +69,16 @@ class App(ctk.CTk):
     def setup_info_tab(self):
         self.info_tab = self.tabview.tab("Information")
         self.info_tab.grid_columnconfigure(0, weight=1)
+
         self.stats_label = ctk.CTkLabel(self.info_tab, text="No graph loaded", justify="left")
         self.stats_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
+
+        self.external_viz_button = ctk.CTkButton(self.info_tab, text="Open Interactive View (Browser)", command=self.open_external_viz, state="disabled")
+        self.external_viz_button.grid(row=1, column=0, padx=20, pady=10, sticky="w")
+
         self.run_fw_button = ctk.CTkButton(self.info_tab, text="Run Floyd-Warshall", command=self.run_floyd_warshall, state="disabled")
         self.run_fw_button.grid(row=2, column=0, padx=20, pady=10, sticky="w")
+
         self.status_label = ctk.CTkLabel(self.info_tab, text="", text_color="orange")
         self.status_label.grid(row=3, column=0, padx=20, pady=10, sticky="w")
 
@@ -150,7 +156,10 @@ class App(ctk.CTk):
 
             self.header_label.configure(text=f"Selected Graph: {filename}")
             self.stats_label.configure(text=f"Vertices: {n}\nArcs: {len(arcs)}")
+            self.external_viz_button.configure(state="normal")
             self.run_fw_button.configure(state="normal")
+
+            self.status_label.configure(text="Graph loaded. Ready to run Floyd-Warshall.", text_color="green")
             
             self.draw_graph_in_canvas()
             self.matrix_selector.set("Initial Matrix (L0)")
@@ -219,6 +228,14 @@ class App(ctk.CTk):
         nx.draw_networkx_edges(G, pos, ax=self.ax, edge_color=edge_colors, width=edge_widths, arrows=True, connectionstyle='arc3,rad=0.1')
         self.ax.axis('off')
         self.canvas.draw()
+
+    def open_external_viz(self):
+        if self.current_graph_data:
+            try:
+                display_matrix(self.current_graph_data["arcs"], self.current_graph_data["n"])
+                self.status_label.configure(text="Interactive view opened in browser.", text_color="green")
+            except Exception as e:
+                self.status_label.configure(text=f"Visualization error: {e}", text_color="red")
 
     # Floyd-Warshall run logic remains identical...
     def run_floyd_warshall(self):
