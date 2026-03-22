@@ -8,11 +8,48 @@ import networkx as nx
 INF = math.inf
 
 
+def _format_cell(value, empty_symbol="—"):
+    if value == INF:
+        return "INF"
+    if value is None:
+        return empty_symbol
+    return str(value)
+
+
+def print_matrix(matrix, title, row_label="From", col_label="To", empty_symbol="—"):
+    n = len(matrix)
+    if n == 0:
+        print(f"\n{title}\n  (empty matrix)")
+        return
+
+    body = [[_format_cell(matrix[i][j], empty_symbol) for j in range(n)] for i in range(n)]
+    row_header_width = max(len(str(row_label)), len(str(n - 1)), 2)
+    col_width = max(
+        3,
+        max(len(cell) for row in body for cell in row),
+        len(str(n - 1)),
+        3,
+    )
+
+    print(f"\n{title}")
+    header = " " * (row_header_width + 3) + f"{col_label:>{col_width}} "
+    header += " ".join(f"{j:>{col_width}}" for j in range(n))
+    print(header)
+    print(" " * (row_header_width + 3) + "-" * (len(header) - (row_header_width + 3)))
+
+    for i in range(n):
+        row_values = " ".join(f"{body[i][j]:>{col_width}}" for j in range(n))
+        print(f"{row_label:>{row_header_width}} {i:>2} | {row_values}")
+
+
 def list_available_graphs(graph_dir):
     if not os.path.isdir(graph_dir):
         print(f"  [!] Graph directory not found: {graph_dir}")
         return []
-    files = sorted(f for f in os.listdir(graph_dir) if f.endswith(".txt"))
+    files = sorted(
+        (f for f in os.listdir(graph_dir) if f.endswith(".txt")),
+        key=lambda x: (x.split('.')[0].rstrip('0123456789'), int(''.join(filter(str.isdigit, x.split('.')[0])) or '0'))
+    )
     return files
 
 
@@ -55,7 +92,7 @@ def display_matrix(arcs, n, title="Matrix"):
     net.from_nx(G)
     net.show("graph.html", notebook=False)
 
-def floyd_warshall(L0, n):
+def floyd_warshall(L0, n, verbose=True):
     L = [row[:] for row in L0]
 
     P = [[None] * n for _ in range(n)]
@@ -63,6 +100,10 @@ def floyd_warshall(L0, n):
         for j in range(n):
             if i != j and L[i][j] != INF:
                 P[i][j] = i
+
+    if verbose:
+        print_matrix(L, "L^0 (Initial value matrix)")
+        print_matrix(P, "P^0 (Initial predecessor matrix)", empty_symbol="∅")
 
     # Main loop: consider each vertex k as intermediate
     for k in range(n):
@@ -81,6 +122,10 @@ def floyd_warshall(L0, n):
 
         L = L_new # shortest distance
         P = P_new # predecessor matrix
+
+        if verbose:
+            print_matrix(L, f"L^{k + 1} (after allowing intermediate vertex {k})")
+            print_matrix(P, f"P^{k + 1} (after allowing intermediate vertex {k})", empty_symbol="∅")
 
     return L, P
 
@@ -164,9 +209,7 @@ def process_graph(filepath):
 
     L = build_value_matrix(n, arcs)
 
-    print("\n  Initial value matrix (L^0):")
-    for row in L:
-        print("  " + " ".join(f"{x if x != INF else 'INF':>5}" for x in row))
+    print_matrix(L, "L^0 (Graph loaded in memory: value matrix)")
 
     try:
         display_matrix(arcs, n)
@@ -174,7 +217,8 @@ def process_graph(filepath):
         print(f"  [!] Could not display graph visually: {e}")
 
 
-    L_final, P = floyd_warshall(L, n)
+    print("\nRunning Floyd–Warshall and displaying intermediate L/P matrices...")
+    L_final, P = floyd_warshall(L, n, verbose=True)
 
 
     if has_absorbing_circuit(L_final, n):
@@ -183,6 +227,8 @@ def process_graph(filepath):
         print(f"  Vertices on absorbing circuits: {absorbing_vertices}")
         print(f"  Diagonal values: {[L_final[i][i] for i in absorbing_vertices]}")
         return
+    else:
+        print("\n  No absorbing circuit detected.")
     
 
 
