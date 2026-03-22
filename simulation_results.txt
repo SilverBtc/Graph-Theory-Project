@@ -75,6 +75,136 @@ Shortest Paths:
 [3 -> 1] No path found.
 [3 -> 2] No path found.
 
+============================================================
+
+--- Processing Graph: graph10.txt ---
+Vertices: 5
+Arcs: 7
+
+Initial Matrix (L0):
+      0     1     2     1   INF
+    INF     0   INF   INF   INF
+    INF   INF     0    -2   INF
+    INF   INF   INF     0     4
+    INF     3    -7   INF     0
+
+Absorbing circuit detected! Shortest paths are not well-defined.
+
+============================================================
+
+--- Processing Graph: graph11.txt ---
+Vertices: 5
+Arcs: 8
+
+Initial Matrix (L0):
+      0   INF     2     1   INF
+      1     2   INF   INF   INF
+    INF   INF     0    -2   INF
+    INF   INF   INF     0     4
+    INF     3    -1   INF     0
+
+Final Distance Matrix (L):
+      0     7     2     0     4
+      1     2     3     1     5
+      6     5     0    -2     2
+      8     7     3     0     4
+      4     3    -1    -3     0
+
+Predecessor Matrix (P):
+    INF     4     0     2     3
+      1   INF     0     2     3
+      1     4   INF     2     3
+      1     4     4   INF     3
+      1     4     4     2   INF
+
+Shortest Paths:
+[0 -> 1] Cost: 7 | Path: 0 -> 2 -> 3 -> 4 -> 1
+[0 -> 2] Cost: 2 | Path: 0 -> 2
+[0 -> 3] Cost: 0 | Path: 0 -> 2 -> 3
+[0 -> 4] Cost: 4 | Path: 0 -> 2 -> 3 -> 4
+[1 -> 0] Cost: 1 | Path: 1 -> 0
+[1 -> 2] Cost: 3 | Path: 1 -> 0 -> 2
+[1 -> 3] Cost: 1 | Path: 1 -> 0 -> 2 -> 3
+[1 -> 4] Cost: 5 | Path: 1 -> 0 -> 2 -> 3 -> 4
+[2 -> 0] Cost: 6 | Path: 2 -> 3 -> 4 -> 1 -> 0
+[2 -> 1] Cost: 5 | Path: 2 -> 3 -> 4 -> 1
+[2 -> 3] Cost: -2 | Path: 2 -> 3
+[2 -> 4] Cost: 2 | Path: 2 -> 3 -> 4
+[3 -> 0] Cost: 8 | Path: 3 -> 4 -> 1 -> 0
+[3 -> 1] Cost: 7 | Path: 3 -> 4 -> 1
+[3 -> 2] Cost: 3 | Path: 3 -> 4 -> 2
+[3 -> 4] Cost: 4 | Path: 3 -> 4
+[4 -> 0] Cost: 4 | Path: 4 -> 1 -> 0
+[4 -> 1] Cost: 3 | Path: 4 -> 1
+[4 -> 2] Cost: -1 | Path: 4 -> 2
+[4 -> 3] Cost: -3 | Path: 4 -> 2 -> 3
+
+============================================================
+
+--- Processing Graph: graph12.txt ---
+Vertices: 5
+Arcs: 9
+
+Initial Matrix (L0):
+      0   INF     2     1   INF
+      1     0   INF   INF     1
+    INF   INF     0    -2   INF
+    INF   INF     7     0     4
+    INF     3    -1   INF     0
+
+Final Distance Matrix (L):
+      0     7     2     0     4
+      1     0     0    -2     1
+      6     5     0    -2     2
+      8     7     3     0     4
+      4     3    -1    -3     0
+
+Predecessor Matrix (P):
+    INF     4     0     2     3
+      1   INF     4     2     1
+      1     4   INF     2     3
+      1     4     4   INF     3
+      1     4     4     2   INF
+
+Shortest Paths:
+[0 -> 1] Cost: 7 | Path: 0 -> 2 -> 3 -> 4 -> 1
+[0 -> 2] Cost: 2 | Path: 0 -> 2
+[0 -> 3] Cost: 0 | Path: 0 -> 2 -> 3
+[0 -> 4] Cost: 4 | Path: 0 -> 2 -> 3 -> 4
+[1 -> 0] Cost: 1 | Path: 1 -> 0
+[1 -> 2] Cost: 0 | Path: 1 -> 4 -> 2
+[1 -> 3] Cost: -2 | Path: 1 -> 4 -> 2 -> 3
+[1 -> 4] Cost: 1 | Path: 1 -> 4
+[2 -> 0] Cost: 6 | Path: 2 -> 3 -> 4 -> 1 -> 0
+[2 -> 1] Cost: 5 | Path: 2 -> 3 -> 4 -> 1
+[2 -> 3] Cost: -2 | Path: 2 -> 3
+[2 -> 4] Cost: 2 | Path: 2 -> 3 -> 4
+[3 -> 0] Cost: 8 | Path: 3 -> 4 -> 1 -> 0
+[3 -> 1] Cost: 7 | Path: 3 -> 4 -> 1
+[3 -> 2] Cost: 3 | Path: 3 -> 4 -> 2
+[3 -> 4] Cost: 4 | Path: 3 -> 4
+[4 -> 0] Cost: 4 | Path: 4 -> 1 -> 0
+[4 -> 1] Cost: 3 | Path: 4 -> 1
+[4 -> 2] Cost: -1 | Path: 4 -> 2
+[4 -> 3] Cost: -3 | Path: 4 -> 2 -> 3
+
+============================================================
+
+--- Processing Graph: graph13.txt ---
+Vertices: 8
+Arcs: 12
+
+Initial Matrix (L0):
+      0   INF     2     1   INF   INF   INF   INF
+      1     0   INF   INF     1   INF   INF   INF
+    INF   INF     0    -2   INF   INF   INF   INF
+    INF   INF     7     0     4   INF   INF   INF
+    INF     3    -1   INF     0   INF   INF   INF
+    INF   INF   INF   INF   INF     0     1   INF
+    INF   INF   INF   INF   INF    -2     0    -2
+    INF   INF   INF   INF   INF   INF   INF     0
+
+Absorbing circuit detected! Shortest paths are not well-defined.
 
 ============================================================
 
@@ -392,136 +522,6 @@ Shortest Paths:
 [4 -> 1] Cost: 3 | Path: 4 -> 1
 [4 -> 2] No path found.
 [4 -> 3] No path found.
-============================================================
-
---- Processing Graph: graph10.txt ---
-Vertices: 5
-Arcs: 7
-
-Initial Matrix (L0):
-      0     1     2     1   INF
-    INF     0   INF   INF   INF
-    INF   INF     0    -2   INF
-    INF   INF   INF     0     4
-    INF     3    -7   INF     0
-
-Absorbing circuit detected! Shortest paths are not well-defined.
-
-============================================================
-
---- Processing Graph: graph11.txt ---
-Vertices: 5
-Arcs: 8
-
-Initial Matrix (L0):
-      0   INF     2     1   INF
-      1     2   INF   INF   INF
-    INF   INF     0    -2   INF
-    INF   INF   INF     0     4
-    INF     3    -1   INF     0
-
-Final Distance Matrix (L):
-      0     7     2     0     4
-      1     2     3     1     5
-      6     5     0    -2     2
-      8     7     3     0     4
-      4     3    -1    -3     0
-
-Predecessor Matrix (P):
-    INF     4     0     2     3
-      1   INF     0     2     3
-      1     4   INF     2     3
-      1     4     4   INF     3
-      1     4     4     2   INF
-
-Shortest Paths:
-[0 -> 1] Cost: 7 | Path: 0 -> 2 -> 3 -> 4 -> 1
-[0 -> 2] Cost: 2 | Path: 0 -> 2
-[0 -> 3] Cost: 0 | Path: 0 -> 2 -> 3
-[0 -> 4] Cost: 4 | Path: 0 -> 2 -> 3 -> 4
-[1 -> 0] Cost: 1 | Path: 1 -> 0
-[1 -> 2] Cost: 3 | Path: 1 -> 0 -> 2
-[1 -> 3] Cost: 1 | Path: 1 -> 0 -> 2 -> 3
-[1 -> 4] Cost: 5 | Path: 1 -> 0 -> 2 -> 3 -> 4
-[2 -> 0] Cost: 6 | Path: 2 -> 3 -> 4 -> 1 -> 0
-[2 -> 1] Cost: 5 | Path: 2 -> 3 -> 4 -> 1
-[2 -> 3] Cost: -2 | Path: 2 -> 3
-[2 -> 4] Cost: 2 | Path: 2 -> 3 -> 4
-[3 -> 0] Cost: 8 | Path: 3 -> 4 -> 1 -> 0
-[3 -> 1] Cost: 7 | Path: 3 -> 4 -> 1
-[3 -> 2] Cost: 3 | Path: 3 -> 4 -> 2
-[3 -> 4] Cost: 4 | Path: 3 -> 4
-[4 -> 0] Cost: 4 | Path: 4 -> 1 -> 0
-[4 -> 1] Cost: 3 | Path: 4 -> 1
-[4 -> 2] Cost: -1 | Path: 4 -> 2
-[4 -> 3] Cost: -3 | Path: 4 -> 2 -> 3
-
-============================================================
-
---- Processing Graph: graph12.txt ---
-Vertices: 5
-Arcs: 9
-
-Initial Matrix (L0):
-      0   INF     2     1   INF
-      1     0   INF   INF     1
-    INF   INF     0    -2   INF
-    INF   INF     7     0     4
-    INF     3    -1   INF     0
-
-Final Distance Matrix (L):
-      0     7     2     0     4
-      1     0     0    -2     1
-      6     5     0    -2     2
-      8     7     3     0     4
-      4     3    -1    -3     0
-
-Predecessor Matrix (P):
-    INF     4     0     2     3
-      1   INF     4     2     1
-      1     4   INF     2     3
-      1     4     4   INF     3
-      1     4     4     2   INF
-
-Shortest Paths:
-[0 -> 1] Cost: 7 | Path: 0 -> 2 -> 3 -> 4 -> 1
-[0 -> 2] Cost: 2 | Path: 0 -> 2
-[0 -> 3] Cost: 0 | Path: 0 -> 2 -> 3
-[0 -> 4] Cost: 4 | Path: 0 -> 2 -> 3 -> 4
-[1 -> 0] Cost: 1 | Path: 1 -> 0
-[1 -> 2] Cost: 0 | Path: 1 -> 4 -> 2
-[1 -> 3] Cost: -2 | Path: 1 -> 4 -> 2 -> 3
-[1 -> 4] Cost: 1 | Path: 1 -> 4
-[2 -> 0] Cost: 6 | Path: 2 -> 3 -> 4 -> 1 -> 0
-[2 -> 1] Cost: 5 | Path: 2 -> 3 -> 4 -> 1
-[2 -> 3] Cost: -2 | Path: 2 -> 3
-[2 -> 4] Cost: 2 | Path: 2 -> 3 -> 4
-[3 -> 0] Cost: 8 | Path: 3 -> 4 -> 1 -> 0
-[3 -> 1] Cost: 7 | Path: 3 -> 4 -> 1
-[3 -> 2] Cost: 3 | Path: 3 -> 4 -> 2
-[3 -> 4] Cost: 4 | Path: 3 -> 4
-[4 -> 0] Cost: 4 | Path: 4 -> 1 -> 0
-[4 -> 1] Cost: 3 | Path: 4 -> 1
-[4 -> 2] Cost: -1 | Path: 4 -> 2
-[4 -> 3] Cost: -3 | Path: 4 -> 2 -> 3
-
-============================================================
-
---- Processing Graph: graph13.txt ---
-Vertices: 8
-Arcs: 12
-
-Initial Matrix (L0):
-      0   INF     2     1   INF   INF   INF   INF
-      1     0   INF   INF     1   INF   INF   INF
-    INF   INF     0    -2   INF   INF   INF   INF
-    INF   INF     7     0     4   INF   INF   INF
-    INF     3    -1   INF     0   INF   INF   INF
-    INF   INF   INF   INF   INF     0     1   INF
-    INF   INF   INF   INF   INF    -2     0    -2
-    INF   INF   INF   INF   INF   INF   INF     0
-
-Absorbing circuit detected! Shortest paths are not well-defined.
 
 ============================================================
 
@@ -599,5 +599,3 @@ Shortest Paths:
 [6 -> 3] Cost: 15 | Path: 6 -> 0 -> 1 -> 3
 [6 -> 4] Cost: 19 | Path: 6 -> 0 -> 1 -> 3 -> 4
 [6 -> 5] Cost: 18 | Path: 6 -> 0 -> 2 -> 5
-
-============================================================
