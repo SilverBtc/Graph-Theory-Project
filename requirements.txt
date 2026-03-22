@@ -4,3 +4,6 @@ pyvis>=0.3.0
 darkdetect>=0.8.0
 packaging>=23.0
 matplotlib>=3.8.0
+osmnx>=1.9.0
+folium>=0.16.0
+scipy>=1.10.0
