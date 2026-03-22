@@ -27,6 +27,8 @@ def generate_villejuif_data():
     for u, v, key in nearest_edges:
         G[u][v][key]['num_feux'] += 1
 
+    print(f"Number of traffic signals found: {len(signals)}")
+
     # Apply Formula: Cost = 1 + 2k
     for u, v, key, data in G.edges(keys=True, data=True):
         k = data['num_feux']
